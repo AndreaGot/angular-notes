@@ -19,6 +19,7 @@
         - [Chiamata di servizi HTTP](#chiamata-di-servizi-http)
         - [Router](#router)
         - [Propagazione di eventi](#propagazione-di-eventi)
+        - [Custom pipe](#custom-pipe)
         - [Componenti parametrizzati](#componenti-parametrizzati)
             - [Input](#input)
             - [Output](#output)
@@ -157,7 +158,7 @@ Si può associare a un componente del DOM che deve essere visualizzato o meno, m
 
     <button (click)="toggle()> Toggle </button>
 
-E, all'interno del component, 
+E, all'interno del component
 
     toggle() {
         this.visible = !this.visible;
@@ -231,6 +232,34 @@ Può capitare che alcuni eventi (ad esempio il click su un bottone presente su u
         this.opened = !this.opened;
     }
 
+### Custom pipe
+
+Le *custom pipe* sono delle shortcut che servono per visualizzare i dati in un modo predefinito.
+
+Ad esempio, dato il valore di memoria di un telefono in MB, si può ottenereil valore in GB con
+
+    <span *ngIf="device.memory"> {{device.memory/1000}}Gb </span>
+
+si può creare una pipe che è un componente creato come segue
+
+    @Pipe({
+        name: 'memory';
+    })
+
+    export class MemoryPipe implements PiprTransform {
+        transform(value: string) {
+            return value ? value / 1000 + 'Gb' : '';
+        }
+    }
+
+In questo modo è possibile modificare l'esempio sopra scrivendo:
+
+     {{device.memory | memory}}
+
+Per avere lo stesso risultato.
+
+Come sempre, la pipe è un component che va registrato correttamente in `app.module` come un qualsiasi componene
+
 ### Componenti parametrizzati
 
 #### Input
@@ -267,7 +296,6 @@ Affichè il tutto funzioni correttamente è necessario che il componente sia *st
 Per stato si intende qualsiasi cosa dinamica, anche solo l'oggetto attivo in un dato momento o una parte visualizzabile secondo qualche condizione. L'idea è che un componente non debba sapere come gestire degli eventi, ma che lo faccia solo in risposta a parametri passati dal parent.
 
 Ovviamente, non è possibile che *tutti* i componenti siano stateless, ma più lo stato è gestito "in alto" nella catena, più i componenti sottostanti possono essere riutilizzati.
-
 
 ## Documentazione
 
