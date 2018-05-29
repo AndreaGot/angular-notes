@@ -1,4 +1,5 @@
 # Corso ES6/Angular
+
 <!-- TOC -->
 
 - [Corso ES6/Angular](#corso-es6angular)
@@ -17,11 +18,15 @@
         - [Scrivere json di oggetto](#scrivere-json-di-oggetto)
         - [Chiamata di servizi HTTP](#chiamata-di-servizi-http)
         - [Router](#router)
+        - [Propagazione di eventi](#propagazione-di-eventi)
         - [Componenti parametrizzati](#componenti-parametrizzati)
+            - [Input](#input)
+            - [Output](#output)
     - [Documentazione](#documentazione)
         - [Demo online](#demo-online)
 
 <!-- /TOC -->
+
 ## Aspetti tecnici
 
 ### Let
@@ -55,8 +60,8 @@ Non è modificabile.
 ### Destructuring
 
     const user = {
-    name: 'Andrea',
-    surname: 'Gottardi',
+        name: 'Andrea',
+        surname: 'Gottardi',
     };
     const { name, surname } = user ;
     console.log (name, surname);
@@ -84,20 +89,20 @@ La soluzione può essere l'estrazione dell'oggetto interno e l'aggiunta in coda.
 ### Ciclo for
 
     const list = [
-        {label: 'Fabio'},
+        {label: 'Andrea'},
         {label: 'Lisa'},
     ];
 
 In ES5
 
     for (const key in list) {
-        console.log( key, list[key].label ); // 0 Fabio, 1 Lisa
+        console.log( key, list[key].label ); // 0 Andrea, 1 Lisa
     }
 
 In ES6
 
     for (const user of list) {
-        console.log( user.label );   // Fabio, Lisa
+        console.log( user.label );   // Andrea, Lisa
     }
 
 In template Angular
@@ -152,7 +157,8 @@ Si può associare a un componente del DOM che deve essere visualizzato o meno, m
 
     <button (click)="toggle()> Toggle </button>
 
-    //...All'interno del component..
+E, all'interno del component, 
+
     toggle() {
         this.visible = !this.visible;
     }
@@ -210,26 +216,50 @@ Per ogni entry va specificato il nome che verrà riportato nell'URL e il compone
 
 Si può impostare una formattazione particolare in base al router attivo con la direttiva `routerLinkActive="<property>"`
 
+### Propagazione di eventi
+
+Può capitare che alcuni eventi (ad esempio il click su un bottone presente su un elemento che ha a sua volta un evento di click registrato) partano insieme quando in realtà non è un effetto voluto. Ad esempio, se ho una riga di una tabella selezionata, e voglio cancellarne un'altra, l'esecuzione della cancellazione standard prevede che la riga appena cancellata sia quella "attiva", quando in realtà non dovrebbe cambiare da quella già esistente. Per risolvere, è necessario usare il metodo `stopPropagation()`, che blocca la catena di trigger ed esegue gli eventi solo fino a quando lo si considera opportuno.
+
 ### Componenti parametrizzati
+
+#### Input
 
 É possibile creare dei componenti generici (ad esempio un componente Card) a cui vengono passati dei valori in maniera più o meno dinamica separatamente. Per far ciò va impostato un parametro nel tag:
 
     <ag-toggable title="1+1+1">
     <ag-toggable [title]="1+1+1">
 
-La differenza nell'uso delle parentesi quadre sta nel fatto che nel primo caso il valore viene preso come stringa (scrivendo quindi `1+1+1`), mentre nel secondo caso viene valutata l'espressione associata (quindi restituendo `3`)
+La differenza nell'uso delle parentesi quadre sta nel fatto che nel primo caso il valore viene preso come stringa (scrivendo quindi `1+1+1`), mentre nel secondo caso viene valutata l'espressione associata (quindi restituendo `3`).
 
-All'interno del componente è necessario impostare il parametro come input 
+C'è differenza anche con le parentesi: se sono quadre si riferiscono a un parametro di *solo* input, altrimenti se si aggiungono le parentesi tonde è anche un parametro di output, o che comunque modifica il proprio valore anche nel senso opposto.
+
+All'interno del componente è necessario impostare il parametro come input
 
     @Input() title = 'Widget'
 
-dove `Widget` è il valore di default nel caso non fosse specificato. 
+dove `Widget` è il valore di default nel caso non fosse specificato.
 
 Ovviamente, per utilizzare il valore è necessario inserirlo nel componente con `{{title}}`
+
+#### Output
+
+Similarmente a `@Input()`, esiste l'omologo per l'output che ha come direttiva `@Output()`.
+
+    @Output() tabClick = new EventEmitter();
+
+nel metodo
+
+        this.tabClick.emit(item);
+
+Affichè il tutto funzioni correttamente è necessario che il componente sia *stateless*, cioè che abbia lo stato gestito dall'esterno (un componente parent, ad esempio).
+
+Per stato si intende qualsiasi cosa dinamica, anche solo l'oggetto attivo in un dato momento o una parte visualizzabile secondo qualche condizione. L'idea è che un componente non debba sapere come gestire degli eventi, ma che lo faccia solo in risposta a parametri passati dal parent. 
+
+Ovviamente, non è possibile che *tutti* i componenti siano stateless, ma più lo stato è gestito "in alto" nella catena, più i componenti sottostanti possono essere riutilizzati.
+
 
 ## Documentazione
 
 ### Demo online
 
 [Playground ES6 Fabio Biondi](http://demo.fabiobiondi.io/es6playground/)
-
