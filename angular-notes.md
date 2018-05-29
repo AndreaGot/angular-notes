@@ -7,6 +7,7 @@
         - [Let](#let)
         - [Backtick](#backtick)
         - [Costanti](#costanti)
+        - [Spread Operator](#spread-operator)
         - [Destructuring](#destructuring)
         - [Merge di oggetti](#merge-di-oggetti)
         - [Ciclo for](#ciclo-for)
@@ -23,8 +24,15 @@
         - [Componenti parametrizzati](#componenti-parametrizzati)
             - [Input](#input)
             - [Output](#output)
+        - [Moduli](#moduli)
+        - [Refactoring](#refactoring)
+        - [Lazy loading](#lazy-loading)
+        - [Services](#services)
+        - [Build](#build)
+        - [Best Practices](#best-practices)
     - [Documentazione](#documentazione)
-        - [Demo online](#demo-online)
+        - [Compodoc](#compodoc)
+    - [Demo](#demo)
 
 <!-- /TOC -->
 
@@ -57,6 +65,18 @@ Non è modificabile.
 
     const list = [1,2,3];
 É modificabile nel contenuto.
+
+### Spread Operator
+
+Lo spread operator, identificato come `...` (tre puntini), è un operatore che permette, data una lista o una collezione, di passare come parametro il contenuto della lista anzichè l'oggetto lista stesso.
+
+In un certo senso
+
+        foo(...list)
+
+equivale a
+
+        foo(listItem1, listItem2...)
 
 ### Destructuring
 
@@ -299,8 +319,63 @@ Per stato si intende qualsiasi cosa dinamica, anche solo l'oggetto attivo in un 
 
 Ovviamente, non è possibile che *tutti* i componenti siano stateless, ma più lo stato è gestito "in alto" nella catena, più i componenti sottostanti possono essere riutilizzati.
 
+### Moduli
+
+Un modulo è un insieme ristretto di componenti, in maniera simile ad `app.module`. In ogni modulo si possono inserire diversi componenti, sia standard che custom, e decidere contemporaneamente cosa rendere pubblico all'esterno. Ad esempio, potrebbe essere plausibile voler rendere disponibile solo il componente `GridComponent`, e non i componenti `RowComponent` o `ColumnComponent`, che sono utilizzati solo all'interno della griglia.
+
+Ogni modulo è indipendente dagli altri: va importato in ogni modulo tutto quello che viene utilizzato dai componenti al suo interno (ad esempio `FormsModule`, che deve essere importato, se utilizzato, sia all'interno di `app.module` che nel modulo custom)
+
+L'esportazione, al contrario, non è sempre richiesta: lo è quando il singolo oggetto viene istanziato a mano, mentre se lo si fa con il Router non è necessario.
+
+Nella pratica, se ci si riferisce al componente con il suo tag anzichè con `<router-outlet>`, allora è necessario fare l'export.
+
+### Refactoring
+
+Tutto può essere spostato nel suo file singolo, per mantenere l'organizzazione dell'applicazione il più snella possibile. Il metodo è quello usuale (riferimenti via URL al file, oppure export del singolo componente) con alcune eccezioni, come nel caso del `Router`, che se viene isolato ed esportato va fatto con riferimento all'intero modulo, in modo che sia completamente utilizzabile dall'app principale che utilizza `<router-outlet></router outlet>`
+
+### Lazy loading
+
+É possibile impostare il sistema in modo che carichi i moduli non appena vengono richiesti, e non tutti all'inizio.
+
+nelle route, va specificato:
+
+    path:'catalog', loadChildren(<link_to_module>)
+
+nel modulo linkato, invece, va scritto
+
+    RouterModule.forChild([
+        {path:'', component: CatalogComponent}
+    ])
+
+In quel modo si specifica all'applicazione che il modulo specificato va caricato solo su richiesta, e con l'ordine specificato nel `RouterModule` (altrimenti non sa cosa caricare)
+
+Può essere utile considerare che può essere necessario includere `CommonModule`
+
+### Services
+
+Un servizio è un componente che fornisce la logica della gestione dati.
+
+### Build
+
+    npm run build --prod
+
+Questo comando, per la pubblicazione in produzione, crea una cartella `dist` che contiene tutte le librerie importate. I moduli lazy-loaded sono caricati come hash, il che è un vantaggio perchè così non viene mai caricato un file già in cache (perchè il nome è diverso).
+
+La build funziona con diversi server, tra cui IIS e Tomcat, perchè sono file statici che possono essere caricati ovunque.
+
+### Best Practices
+
+- Import
+  - Prima quelli di sistema, poi quelli utente
+  - In ordine alfabetico
+- asd
+
 ## Documentazione
 
-### Demo online
+### Compodoc
+
+Compodoc è una libreria che permette la creazione automatica di documentazione per il codice angular scritto.
+
+## Demo
 
 [Playground ES6 Fabio Biondi](http://demo.fabiobiondi.io/es6playground/)
