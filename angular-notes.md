@@ -28,6 +28,7 @@
         - [Refactoring](#refactoring)
         - [Lazy loading](#lazy-loading)
         - [Services](#services)
+        - [Autenticazione e sicurezza](#autenticazione-e-sicurezza)
         - [Build](#build)
         - [Best Practices](#best-practices)
     - [Documentazione](#documentazione)
@@ -168,6 +169,10 @@ In ES6, ristretto
 `--inline-style`: inserisce lo stile in un array all'interno del componente
 
 `--skip-tests`: Salta i test.
+
+Per togliere l'esecuzione dei test in un momento successivo:
+
+    ng g c model --spec false
 
 ### Direttive
 
@@ -355,6 +360,10 @@ Può essere utile considerare che può essere necessario includere `CommonModule
 ### Services
 
 Un servizio è un componente che fornisce la logica della gestione dati.
+
+### Autenticazione e sicurezza
+
+
 
 ### Build
 
