@@ -33,6 +33,7 @@
     - [Documentazione](#documentazione)
         - [Compodoc](#compodoc)
     - [Demo](#demo)
+    - [Esercizi](#esercizi)
 
 <!-- /TOC -->
 
@@ -266,7 +267,7 @@ si può creare una **pipe** che è un componente creato come segue
         name: 'memory';
     })
 
-    export class MemoryPipe implements PiprTransform {
+    export class MemoryPipe implements PipeTransform {
         transform(value: string) {
             return value ? value / 1000 + 'Gb' : '';
         }
@@ -363,12 +364,18 @@ Questo comando, per la pubblicazione in produzione, crea una cartella `dist` che
 
 La build funziona con diversi server, tra cui IIS e Tomcat, perchè sono file statici che possono essere caricati ovunque.
 
+Un problema comune è che aggiornando un URL non base, del tipo 
+
+    localhost:8080/contacts
+
+non carica la pagina, poichè è un URL che effettivamente non è noto e impostato.
+Per risolvere, va fatto un reverse proxy sul server in modo da redirigere il tutto sulla pagina index
+
 ### Best Practices
 
 - Import
   - Prima quelli di sistema, poi quelli utente
   - In ordine alfabetico
-- asd
 
 ## Documentazione
 
@@ -376,6 +383,14 @@ La build funziona con diversi server, tra cui IIS e Tomcat, perchè sono file st
 
 Compodoc è una libreria che permette la creazione automatica di documentazione per il codice angular scritto.
 
+Una volta eseguito, crea una cartella `documentation` che contiene la documentazione generata.
+
+La documentazione è scritta in Markdown.
+
 ## Demo
 
 [Playground ES6 Fabio Biondi](http://demo.fabiobiondi.io/es6playground/)
+
+## Esercizi 
+[Esercizio 1](https://training-angular2.gitlab.io/angular2-slides/angular-workshop-components.html#1)
+[Esercizio 2](https://git-books.gitlab.io/workshop-mastering-angular/)
