@@ -291,6 +291,8 @@ nel metodo
 
         this.tabClick.emit(item);
 
+Diversi component, anche nidificati tra loro, usano una combinazione di emit() al loro livello per lanciare allo strato superiore i dati di output.
+
 Affichè il tutto funzioni correttamente è necessario che il componente sia *stateless*, cioè che abbia lo stato gestito dall'esterno (un componente parent, ad esempio).
 
 Per stato si intende qualsiasi cosa dinamica, anche solo l'oggetto attivo in un dato momento o una parte visualizzabile secondo qualche condizione. L'idea è che un componente non debba sapere come gestire degli eventi, ma che lo faccia solo in risposta a parametri passati dal parent.
