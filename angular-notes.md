@@ -218,7 +218,18 @@ Si può impostare una formattazione particolare in base al router attivo con la 
 
 ### Propagazione di eventi
 
-Può capitare che alcuni eventi (ad esempio il click su un bottone presente su un elemento che ha a sua volta un evento di click registrato) partano insieme quando in realtà non è un effetto voluto. Ad esempio, se ho una riga di una tabella selezionata, e voglio cancellarne un'altra, l'esecuzione della cancellazione standard prevede che la riga appena cancellata sia quella "attiva", quando in realtà non dovrebbe cambiare da quella già esistente. Per risolvere, è necessario usare il metodo `stopPropagation()`, che blocca la catena di trigger ed esegue gli eventi solo fino a quando lo si considera opportuno.
+Può capitare che alcuni eventi (ad esempio il click su un bottone presente su un elemento che ha a sua volta un evento di click registrato) partano insieme quando in realtà non è un effetto voluto. Ad esempio, se ho una riga di una tabella selezionata, e voglio cancellarne un'altra, l'esecuzione della cancellazione standard prevede che la riga appena cancellata sia quella "attiva", quando in realtà non dovrebbe cambiare da quella già esistente. Per risolvere, è necessario usare il metodo
+
+    event.stopPropagation()
+
+ che blocca la catena di trigger ed esegue gli eventi solo fino a quando lo si considera opportuno.
+
+`event` è un tipo di evento come ad esempio `MouseEvent`
+
+    toggle(event: MouseEvent) {
+        event.stopPropagation();
+        this.opened = !this.opened;
+    }
 
 ### Componenti parametrizzati
 
@@ -253,7 +264,7 @@ nel metodo
 
 Affichè il tutto funzioni correttamente è necessario che il componente sia *stateless*, cioè che abbia lo stato gestito dall'esterno (un componente parent, ad esempio).
 
-Per stato si intende qualsiasi cosa dinamica, anche solo l'oggetto attivo in un dato momento o una parte visualizzabile secondo qualche condizione. L'idea è che un componente non debba sapere come gestire degli eventi, ma che lo faccia solo in risposta a parametri passati dal parent. 
+Per stato si intende qualsiasi cosa dinamica, anche solo l'oggetto attivo in un dato momento o una parte visualizzabile secondo qualche condizione. L'idea è che un componente non debba sapere come gestire degli eventi, ma che lo faccia solo in risposta a parametri passati dal parent.
 
 Ovviamente, non è possibile che *tutti* i componenti siano stateless, ma più lo stato è gestito "in alto" nella catena, più i componenti sottostanti possono essere riutilizzati.
 
