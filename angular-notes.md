@@ -198,7 +198,7 @@ Esempio di cancellazione di dati verso un url, con rimozione logica dalla lista 
 
 ### Router
 
-Il router è un componente che permette di impostare diversi path per tutte le pagine dell'applicazione, in modo che cambi l'url, il contenuto della pagina, ma non venga fatto alcun refresh in fase di caricamento dei contenuti.
+Il **router** è un componente che permette di impostare diversi path per tutte le pagine dell'applicazione, in modo che cambi l'url, il contenuto della pagina, ma non venga fatto alcun refresh in fase di caricamento dei contenuti.
 
 Nel template
 
@@ -234,13 +234,13 @@ Può capitare che alcuni eventi (ad esempio il click su un bottone presente su u
 
 ### Custom pipe
 
-Le *custom pipe* sono delle shortcut che servono per visualizzare i dati in un modo predefinito.
+Le *custom pipe* sono delle shortcut che servono per visualizzare i dati in un modo predefinito, formattandoli sulla base di diversi criteri.
 
 Ad esempio, dato il valore di memoria di un telefono in MB, si può ottenereil valore in GB con
 
     <span *ngIf="device.memory"> {{device.memory/1000}}Gb </span>
 
-si può creare una pipe che è un componente creato come segue
+si può creare una **pipe** che è un componente creato come segue
 
     @Pipe({
         name: 'memory';
@@ -258,7 +258,7 @@ In questo modo è possibile modificare l'esempio sopra scrivendo:
 
 Per avere lo stesso risultato.
 
-Come sempre, la pipe è un component che va registrato correttamente in `app.module` come un qualsiasi componene
+Come sempre, la **pipe** è un component che va registrato correttamente in `app.module` come un qualsiasi componene
 
 ### Componenti parametrizzati
 
@@ -269,9 +269,9 @@ Come sempre, la pipe è un component che va registrato correttamente in `app.mod
     <ag-toggable title="1+1+1">
     <ag-toggable [title]="1+1+1">
 
-La differenza nell'uso delle parentesi quadre sta nel fatto che nel primo caso il valore viene preso come stringa (scrivendo quindi `1+1+1`), mentre nel secondo caso viene valutata l'espressione associata (quindi restituendo `3`).
+La **differenza** nell'uso delle parentesi quadre sta nel fatto che nel primo caso il valore viene preso come **stringa** (scrivendo quindi `1+1+1`), mentre nel secondo caso viene valutata **l'espressione** associata (quindi restituendo `3`).
 
-C'è differenza anche con le parentesi: se sono quadre si riferiscono a un parametro di *solo* input, altrimenti se si aggiungono le parentesi tonde è anche un parametro di output, o che comunque modifica il proprio valore anche nel senso opposto.
+C'è differenza anche con le parentesi: se sono **quadre** si riferiscono a un parametro di **solo input**, altrimenti se si aggiungono le **parentesi tonde** è anche un parametro di **output**, o che comunque modifica il proprio valore anche nel senso opposto.
 
 All'interno del componente è necessario impostare il parametro come input
 
@@ -293,7 +293,7 @@ nel metodo
 
 Diversi component, anche nidificati tra loro, usano una combinazione di emit() al loro livello per lanciare allo strato superiore i dati di output.
 
-Affichè il tutto funzioni correttamente è necessario che il componente sia *stateless*, cioè che abbia lo stato gestito dall'esterno (un componente parent, ad esempio).
+Affichè il tutto funzioni nel migliore dei modi, secondo la filosofia che sta sotto alla gestione dei componenti, è necessario che ogni componente sia *stateless*, cioè che abbia lo stato gestito dall'esterno (un componente parent, ad esempio).
 
 Per stato si intende qualsiasi cosa dinamica, anche solo l'oggetto attivo in un dato momento o una parte visualizzabile secondo qualche condizione. L'idea è che un componente non debba sapere come gestire degli eventi, ma che lo faccia solo in risposta a parametri passati dal parent.
 
